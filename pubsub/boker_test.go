@@ -6,10 +6,21 @@ func TestSubscribe(t *testing.T) {
 	broker := NewBroker[string]()
 
 	sub := broker.Subscribe("topic")
-	want := broker.subscribers["topic"][0]
+	want := broker.subscribers["topic"][sub.id]
 
 	if sub != want {
 		t.Errorf("got %v, wanted %v", sub, want)
+	}
+}
+
+func TestUnsubscribe(t *testing.T) {
+	broker := NewBroker[string]()
+
+	sub := broker.Subscribe("topic")
+	broker.Unsubscribe(sub)
+
+	if len(broker.subscribers["topic"]) != 0 {
+		t.Errorf("got %v, wanted %v", len(broker.subscribers["topic"]), 0)
 	}
 }
 

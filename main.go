@@ -22,15 +22,9 @@ func main() {
 
 	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
 	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
-	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
-	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
-	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
-	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
-	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
-	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
-	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
-	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
-	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
+
+	broker.Unsubscribe(sub1)
+
 	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
 	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
 }
