@@ -15,16 +15,7 @@ type Broker[T any] struct {
 	path        string
 }
 
-func NewBroker[T any]() *Broker[T] {
-	path := "./data/pubsub"
-
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		err := os.MkdirAll(path, os.ModePerm)
-		if err != nil {
-			panic(err)
-		}
-	}
-
+func NewBroker[T any](path string) *Broker[T] {
 	return &Broker[T]{
 		subscribers: make(map[string]Subscribes[T]),
 		path:        path,
@@ -64,18 +55,16 @@ func (b *Broker[T]) Publish(topic string, message T) {
 }
 
 func (b *Broker[T]) writeToFile(topic string, message T) {
-
 	date := time.Now().Format("2006-01-02")
-	fileName := fmt.Sprintf("./data/pubsub/%s-%s.log", topic, date)
+	fileName := fmt.Sprintf("%s/%s-%s.log", b.path, topic, date)
 
-	f, err := os.Create(fileName)
+	f, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		panic(err)
 	}
-
 	defer f.Close()
 
-	dateTime := time.Now().Format("2006-01-02 15:04:05")
+	dateTime := time.Now().Format(time.RFC3339)
 	log := fmt.Sprintf("%s %v\n", dateTime, message)
 
 	if _, err := f.WriteString(log); err != nil {

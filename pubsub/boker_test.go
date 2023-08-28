@@ -1,9 +1,22 @@
 package pubsub
 
-import "testing"
+import (
+	"os"
+	"testing"
+	"time"
+)
+
+func deleteFile() {
+	fileName := "/tmp/pubsub/topic-" + time.Now().Format("2006-01-02") + ".log"
+
+	err := os.Remove(fileName)
+	if err != nil {
+		panic(err)
+	}
+}
 
 func TestSubscribe(t *testing.T) {
-	broker := NewBroker[string]()
+	broker := NewBroker[string]("/tmp/pubsub")
 
 	sub := broker.Subscribe("topic")
 	want := broker.subscribers["topic"][sub.id]
@@ -14,7 +27,7 @@ func TestSubscribe(t *testing.T) {
 }
 
 func TestUnsubscribe(t *testing.T) {
-	broker := NewBroker[string]()
+	broker := NewBroker[string]("/tmp/pubsub")
 
 	sub := broker.Subscribe("topic")
 	broker.Unsubscribe(sub)
@@ -25,7 +38,8 @@ func TestUnsubscribe(t *testing.T) {
 }
 
 func TestPublish(t *testing.T) {
-	broker := NewBroker[string]()
+	defer deleteFile()
+	broker := NewBroker[string]("/tmp/pubsub")
 
 	sub := broker.Subscribe("topic")
 

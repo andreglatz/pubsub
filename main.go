@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	broker := pubsub.NewBroker[string]()
+	broker := pubsub.NewBroker[string]("/tmp/pubsub")
 
 	sub1 := broker.Subscribe("topic1")
 	sub2 := broker.Subscribe("topic1")
@@ -26,8 +26,8 @@ func main() {
 
 	broker.Unsubscribe(sub1)
 
-	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
-	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
+	broker.Publish("topic1", "{\"message\": \"Bye!\"}")
+	broker.Publish("topic1", "{\"message\": \"Bye!\"}")
 
 	time.Sleep(1 * time.Second)
 }
