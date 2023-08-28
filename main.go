@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/andreglatz/pubsub/pubsub"
 )
@@ -27,4 +28,6 @@ func main() {
 
 	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
 	broker.Publish("topic1", "{\"message\": \"hello world!\"}")
+
+	time.Sleep(1 * time.Second)
 }

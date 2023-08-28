@@ -1,6 +1,8 @@
 package pubsub
 
-import "github.com/andreglatz/pubsub/uuid"
+import (
+	"github.com/andreglatz/pubsub/uuid"
+)
 
 type Subscribe[T any] struct {
 	id      string
